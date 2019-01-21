@@ -7,10 +7,10 @@ import retrofit2.http.Query;
 
 public interface WeatherApi {
 
-    String API_LINK = "https://api.openweathermap.org/";
+    String API_LINK = "https://api.openweathermap.org/data/2.5/";
     String API_ID = "4a801829d4feb9cdaf20e55bef72cf94";
 
-    @GET("data/2.5/weather")
+    @GET("weather")
     Call<WeatherData> getOneDayData(@Query("q") String city,
-                                    @Query("APPID") String key);
+                                    @Query("appid") String key);
 }

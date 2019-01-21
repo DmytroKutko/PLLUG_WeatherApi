@@ -3,7 +3,10 @@ package com.example.user.pllug_weather.service;
 import android.util.Log;
 
 import com.example.user.pllug_weather.api.WeatherApi;
+import com.example.user.pllug_weather.model.oneDay.Weather;
 import com.example.user.pllug_weather.model.oneDay.WeatherData;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +36,7 @@ public class WeatherOneDayService {
         void onFailure();
     }
 
-    public void getOneDayWeather(final LoadData<WeatherData> callback, final String name) {
+    public void getOneDayWeather(final LoadData<List<Weather>> callback, final String name) {
 
 
         api.getOneDayData(name, api.API_ID).enqueue(new Callback<WeatherData>() {
@@ -44,7 +47,7 @@ public class WeatherOneDayService {
                     callback.onFailure();
                     return;
                 }
-                callback.onData(response.body().getWeatherData());
+                callback.onData(response.body().getWeather()); // <-- MISTAKE!!!
             }
 
             @Override

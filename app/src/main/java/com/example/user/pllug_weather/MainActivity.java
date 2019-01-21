@@ -9,8 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.pllug_weather.model.oneDay.Weather;
 import com.example.user.pllug_weather.model.oneDay.WeatherData;
 import com.example.user.pllug_weather.service.WeatherOneDayService;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -37,9 +40,10 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                weatherService.getOneDayWeather(new WeatherOneDayService.LoadData<WeatherData>() {
+                weatherService.getOneDayWeather(new WeatherOneDayService.LoadData<List<Weather>>(){
+
                     @Override
-                    public void onData(WeatherData data) {
+                    public void onData(List<Weather> data) {
                         Log.d(TAG, "onData: received");
                         onDataUpdate(data);
                         etCityName.setText("");
@@ -63,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         weatherService = new WeatherOneDayService();
     }
 
-    private void onDataUpdate(WeatherData data) {
-        tvCity.setText("City name:\t" + data.getName());
-        tvId.setText("Sunrise:\t" + data.getId());
+    private void onDataUpdate(List<Weather> data) {
+        tvCity.setText("Description:\t" + data.get(0).getDescription());
+        tvId.setText("Main:\t" + data.get(0).getMain());
     }
 }
