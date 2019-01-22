@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         tvCity.setText("City name:\t" + data.getName());
         tvId.setText("ID:\t" + data.getId());
         tvTemperature.setText("Temperature: \t" + temp(data) + "°C");
-        tvClouds.setText("Clouds:\t" + data.getWeather().get(0).getDescription());
+        tvClouds.setText("Weather:\t" + data.getWeather().get(0).getDescription());
     }
 
     private int temp(WeatherData data) {
