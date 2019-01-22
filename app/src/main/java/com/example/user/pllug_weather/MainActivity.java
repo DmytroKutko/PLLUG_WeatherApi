@@ -1,11 +1,11 @@
 package com.example.user.pllug_weather;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +15,8 @@ import com.example.user.pllug_weather.service.CurrentWeatherService;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    Button btnSubmit;
-    TextView tvCity, tvId;
+    ImageButton btnSubmit;
+    TextView tvCity, tvId, tvTemperature, tvClouds;
     EditText etCityName;
     CurrentWeatherService weatherService;
 
@@ -61,11 +61,22 @@ public class MainActivity extends AppCompatActivity {
         etCityName = findViewById(R.id.etCityName);
         tvCity = findViewById(R.id.tvCity);
         tvId = findViewById(R.id.tvId);
+        tvTemperature = findViewById(R.id.tvTemperature);
+        tvClouds = findViewById(R.id.tvClouds);
         weatherService = new CurrentWeatherService();
     }
 
     private void onDataUpdate(WeatherData data) {
         tvCity.setText("City name:\t" + data.getName());
-        tvId.setText("Lon:\t" + data.getCoord().getLon());
+        tvId.setText("ID:\t" + data.getId());
+        tvTemperature.setText("Temperature: \t" + temp(data) + "°C");
+        tvClouds.setText("Clouds:\t" + data.getWeather().get(0).getDescription());
+    }
+
+    private int temp(WeatherData data) {
+        double temp = Double.valueOf(data.getMain().getTemp()) - 273.15d;
+        temp = Math.round(temp);
+        int result = Integer.valueOf((int) temp);
+        return result;
     }
 }

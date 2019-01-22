@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
@@ -12,36 +11,69 @@
         android:id="@+id/etCityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:gravity="center"
         android:hint="Set city name"
-        android:inputType="textPersonName" />
-
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:text="Search" />
+        android:inputType="textPersonName"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:text="City name"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="80dp"
+        android:text="City name:"
         android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tvId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCity"
+        android:layout_alignParentStart="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:text="City id"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="City id:"
         android:textSize="18sp" />
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvId"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Temperature:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvClouds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTemperature"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="Clouds:"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/btnSubmit"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/etCityName"
+        app:srcCompat="@drawable/ic_search" />
+</RelativeLayout>
