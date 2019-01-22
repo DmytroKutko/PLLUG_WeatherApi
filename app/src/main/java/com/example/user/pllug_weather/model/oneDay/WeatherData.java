@@ -44,10 +44,6 @@ public class WeatherData {
     @Expose
     private Integer cod;
 
-    public WeatherData getWeatherData() {
-        return new WeatherData();
-    }
-
     public Coord getCoord() {
         return coord;
     }

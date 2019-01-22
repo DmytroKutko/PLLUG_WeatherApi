@@ -9,11 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.user.pllug_weather.model.oneDay.Weather;
 import com.example.user.pllug_weather.model.oneDay.WeatherData;
-import com.example.user.pllug_weather.service.WeatherOneDayService;
-
-import java.util.List;
+import com.example.user.pllug_weather.service.CurrentWeatherService;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -21,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnSubmit;
     TextView tvCity, tvId;
     EditText etCityName;
-    WeatherOneDayService weatherService;
+    CurrentWeatherService weatherService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +37,8 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                weatherService.getOneDayListWeather(new WeatherOneDayService.LoadData<List<Weather>>(){
-//
-//                    @Override
-//                    public void onData(List<Weather> data) {
-//                        Log.d(TAG, "onData: received");
-//                        onDataUpdate(data);
-//                        etCityName.setText("");
-//                    }
-//
-//                    @Override
-//                    public void onFailure() {
-//                        Toast.makeText(MainActivity.this, "Fail to load data", Toast.LENGTH_SHORT).show();
-//                    }
-//                }, etCityName.getText().toString()); // <-- Set city name from edit text
 
-                weatherService.getOneDayData(new WeatherOneDayService.LoadData<WeatherData>() {
+                weatherService.getCurrentData(new CurrentWeatherService.LoadData<WeatherData>() {
                     @Override
                     public void onData(WeatherData data) {
                         Log.d(TAG, "onData: received");
@@ -67,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onFailure() {
                         Toast.makeText(MainActivity.this, "Fail to load data", Toast.LENGTH_SHORT).show();
                     }
-                }, etCityName.getText().toString());
+                }, etCityName.getText().toString()); // Set city name !!!
             }
         });
 
@@ -78,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         etCityName = findViewById(R.id.etCityName);
         tvCity = findViewById(R.id.tvCity);
         tvId = findViewById(R.id.tvId);
-        weatherService = new WeatherOneDayService();
+        weatherService = new CurrentWeatherService();
     }
 
     private void onDataUpdate(WeatherData data) {
