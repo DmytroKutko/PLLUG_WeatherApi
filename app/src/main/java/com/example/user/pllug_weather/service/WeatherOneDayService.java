@@ -36,9 +36,27 @@ public class WeatherOneDayService {
         void onFailure();
     }
 
-    public void getOneDayWeather(final LoadData<List<Weather>> callback, final String name) {
+//    public void getOneDayListWeather(final LoadData<List<Weather>> callback, final String name) {
+//
+//        api.getOneDayData(name, api.API_ID).enqueue(new Callback<WeatherData>() {
+//            @Override
+//            public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+//                if (response.body() == null) {
+//                    Log.d(TAG, "onResponse: fail");
+//                    callback.onFailure();
+//                    return;
+//                }
+//                callback.onData(response.body().getWeather()); // <-- MISTAKE!!!
+//            }
+//
+//            @Override
+//            public void onFailure(Call<WeatherData> call, Throwable t) {
+//                Log.d(TAG, "onFailure: Fail load data");
+//            }
+//        });
+//    }
 
-
+    public void getOneDayData(final LoadData<WeatherData> callback, final String name) {
         api.getOneDayData(name, api.API_ID).enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
@@ -47,12 +65,12 @@ public class WeatherOneDayService {
                     callback.onFailure();
                     return;
                 }
-                callback.onData(response.body().getWeather()); // <-- MISTAKE!!!
+                callback.onData(response.body());
             }
 
             @Override
             public void onFailure(Call<WeatherData> call, Throwable t) {
-                Log.d(TAG, "onFailure: Fail load data");
+                Log.d(TAG, "onFailure: Fail load data WeatherData");
             }
         });
     }

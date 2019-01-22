@@ -40,10 +40,24 @@ public class MainActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                weatherService.getOneDayWeather(new WeatherOneDayService.LoadData<List<Weather>>(){
+//                weatherService.getOneDayListWeather(new WeatherOneDayService.LoadData<List<Weather>>(){
+//
+//                    @Override
+//                    public void onData(List<Weather> data) {
+//                        Log.d(TAG, "onData: received");
+//                        onDataUpdate(data);
+//                        etCityName.setText("");
+//                    }
+//
+//                    @Override
+//                    public void onFailure() {
+//                        Toast.makeText(MainActivity.this, "Fail to load data", Toast.LENGTH_SHORT).show();
+//                    }
+//                }, etCityName.getText().toString()); // <-- Set city name from edit text
 
+                weatherService.getOneDayData(new WeatherOneDayService.LoadData<WeatherData>() {
                     @Override
-                    public void onData(List<Weather> data) {
+                    public void onData(WeatherData data) {
                         Log.d(TAG, "onData: received");
                         onDataUpdate(data);
                         etCityName.setText("");
@@ -67,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
         weatherService = new WeatherOneDayService();
     }
 
-    private void onDataUpdate(List<Weather> data) {
-        tvCity.setText("Description:\t" + data.get(0).getDescription());
-        tvId.setText("Main:\t" + data.get(0).getMain());
+    private void onDataUpdate(WeatherData data) {
+        tvCity.setText("City name:\t" + data.getName());
+        tvId.setText("Lon:\t" + data.getCoord().getLon());
     }
 }
