@@ -1,6 +1,9 @@
 package com.example.user.pllug_weather;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -9,14 +12,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.user.pllug_weather.entity.DbWeather;
 import com.example.user.pllug_weather.model.oneDay.WeatherData;
 import com.example.user.pllug_weather.service.CurrentWeatherService;
+import com.example.user.pllug_weather.viewModel.WeatherViewModel;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    private WeatherViewModel weatherViewModel;
 
     ImageButton btnSubmit;
-    TextView tvCity, tvId, tvTemperature, tvClouds;
+    TextView tvCity, tvId, tvTemperature, tvClouds, tvTest;
     EditText etCityName;
     CurrentWeatherService weatherService;
 
@@ -25,6 +33,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        weatherViewModel = new ViewModelProviders().of(this).get(WeatherViewModel.class);
+        weatherViewModel.getAllDbWeather().observe(this, new Observer<List<DbWeather>>() {
+            @Override
+            public void onChanged(@Nullable List<DbWeather> dbWeathers) {
+                Toast.makeText(MainActivity.this, "Checked", Toast.LENGTH_SHORT).show();
+                if (dbWeathers.size() != 0) {
+                    tvTest.setText(dbWeathers.get(0).getCityName() + " " +
+                            dbWeathers.get(0).getWeather() + " " +
+                            dbWeathers.get(0).getTemp());
+                }
+            }
+        });
         setInitialData();
     }
 
@@ -63,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         tvId = findViewById(R.id.tvId);
         tvTemperature = findViewById(R.id.tvTemperature);
         tvClouds = findViewById(R.id.tvClouds);
+        tvTest = findViewById(R.id.tvTest);
         weatherService = new CurrentWeatherService();
     }
 
