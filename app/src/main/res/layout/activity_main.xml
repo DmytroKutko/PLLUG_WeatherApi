@@ -28,8 +28,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="250dp"
         android:text="City name:"
         android:textSize="18sp" />
 
@@ -40,7 +40,7 @@
         android:layout_below="@+id/tvCity"
         android:layout_alignParentStart="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:text="City id:"
         android:textSize="18sp" />
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvId"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:text="Temperature:"
         android:textSize="18sp" />
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTemperature"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="5dp"
         android:text="Clouds:"
         android:textSize="18sp" />
@@ -77,11 +77,20 @@
         android:layout_toEndOf="@+id/etCityName"
         app:srcCompat="@drawable/ic_search" />
 
-    <TextView
-        android:id="@+id/tvTest"
+    <Button
+        android:id="@+id/btnLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvCity"
-        android:layout_centerVertical="true"
-        android:text="Test" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="Current location" />
+
+    <ImageView
+        android:id="@+id/ivWeather"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.user.pllug_weather.api;
 
 import com.example.user.pllug_weather.model.oneDay.WeatherData;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -13,4 +14,9 @@ public interface WeatherApi {
     @GET("weather")
     Call<WeatherData> getOneDayData(@Query("q") String city,
                                     @Query("appid") String key);
+
+    @GET("weather")
+    Call<WeatherData> getOneDayDataByCoord(@Query("lat") String lat,
+                                           @Query("lon") String lon,
+                                           @Query("appid") String key);
 }
