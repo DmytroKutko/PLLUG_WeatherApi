@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     ImageButton btnSubmit;
+    Button btnLocation;
     ImageView ivWeather;
-    TextView tvCity, tvId, tvTemperature, tvClouds;
+    TextView tvCity, tvWindSpeed, tvTemperature, tvClouds;
     EditText etCityName;
     CurrentWeatherService weatherService;
 
@@ -56,13 +58,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weatherService.getCurrentDataByLocaton(new CurrentWeatherService.LoadData<WeatherData>() {
+                    @Override
+                    public void onData(WeatherData data) {
+                        Log.d(TAG, "onData: received");
+                        onDataUpdate(data);
+                        etCityName.setText("");
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(MainActivity.this, "Fail to load data Coordinates", Toast.LENGTH_SHORT).show();
+                    }
+                }, "-0.1258", "51.5085");
+            }
+        });
     }
 
     private void initView() {
         btnSubmit = findViewById(R.id.btnSubmit);
+        btnLocation = findViewById(R.id.btnLocation);
         etCityName = findViewById(R.id.etCityName);
         tvCity = findViewById(R.id.tvCity);
-        tvId = findViewById(R.id.tvId);
+        tvWindSpeed = findViewById(R.id.tvWindSpeed);
         tvTemperature = findViewById(R.id.tvTemperature);
         tvClouds = findViewById(R.id.tvClouds);
         weatherService = new CurrentWeatherService();
@@ -71,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onDataUpdate(WeatherData data) {
         tvCity.setText("City name:\t" + data.getName());
-        tvId.setText("ID:\t" + data.getId());
+        tvWindSpeed.setText("Wind speed:\t" + data.getWind().getSpeed() + " meter/sec");
         tvTemperature.setText("Temperature: \t" + temp(data) + "°C");
         tvClouds.setText("Weather:\t" + data.getWeather().get(0).getDescription());
         iconWeather(data);

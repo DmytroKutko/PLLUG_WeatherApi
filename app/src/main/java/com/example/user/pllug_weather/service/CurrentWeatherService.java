@@ -55,4 +55,22 @@ public class CurrentWeatherService {
         });
     }
 
+    public void getCurrentDataByLocaton(final LoadData<WeatherData> callback, final String lon, final String lat) {
+        api.getOneDayDataByCoord(lat, lon, api.API_ID).enqueue(new Callback<WeatherData>() {
+            @Override
+            public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
+                if (response.body() == null) {
+                    Log.d(TAG, "onResponse: fail");
+                    callback.onFailure();
+                    return;
+                }
+                callback.onData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<WeatherData> call, Throwable t) {
+                Log.d(TAG, "onFailure: Fail load data WeatherData Coordinates");
+            }
+        });
+    }
 }
