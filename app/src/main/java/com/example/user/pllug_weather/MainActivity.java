@@ -1,6 +1,9 @@
 package com.example.user.pllug_weather;
 
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +16,16 @@ import android.widget.Toast;
 
 import com.example.user.pllug_weather.model.oneDay.WeatherData;
 import com.example.user.pllug_weather.service.CurrentWeatherService;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
+    double longitude, latitude;
+    FusedLocationProviderClient client;
     ImageButton btnSubmit;
     Button btnLocation;
     ImageView ivWeather;
@@ -35,6 +44,24 @@ public class MainActivity extends AppCompatActivity {
     private void setInitialData() {
         initView();
         initListener();
+        requestPermission();
+    }
+
+    private void initView() {
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnLocation = findViewById(R.id.btnLocation);
+        etCityName = findViewById(R.id.etCityName);
+        tvCity = findViewById(R.id.tvCity);
+        tvWindSpeed = findViewById(R.id.tvWindSpeed);
+        tvTemperature = findViewById(R.id.tvTemperature);
+        tvClouds = findViewById(R.id.tvClouds);
+        weatherService = new CurrentWeatherService();
+        ivWeather = findViewById(R.id.ivWeather);
+        client = LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION}, 1);
     }
 
     private void initListener() {
@@ -61,33 +88,40 @@ public class MainActivity extends AppCompatActivity {
         btnLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                weatherService.getCurrentDataByLocaton(new CurrentWeatherService.LoadData<WeatherData>() {
-                    @Override
-                    public void onData(WeatherData data) {
-                        Log.d(TAG, "onData: received");
-                        onDataUpdate(data);
-                        etCityName.setText("");
-                    }
 
+                if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                        ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                client.getLastLocation().addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
                     @Override
-                    public void onFailure() {
-                        Toast.makeText(MainActivity.this, "Fail to load data Coordinates", Toast.LENGTH_SHORT).show();
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+
+                            weatherService.getCurrentDataByLocation(String.format("%.5f", latitude),
+                                    String.format("%.5f", longitude),
+                                    new CurrentWeatherService.LoadData<WeatherData>() {
+                                        @Override
+                                        public void onData(WeatherData data) {
+                                            Log.d(TAG, "onData: received");
+                                            onDataUpdate(data);
+                                            etCityName.setText("");
+                                        }
+
+                                        @Override
+                                        public void onFailure() {
+                                            Toast.makeText(MainActivity.this, "Fail to load data Coordinates 111", Toast.LENGTH_SHORT).show();
+                                            tvCity.setText(latitude + '\n' + longitude + "");
+                                        }
+                                    });
+                        }
                     }
-                }, "-0.1258", "51.5085");
+                });
             }
         });
-    }
-
-    private void initView() {
-        btnSubmit = findViewById(R.id.btnSubmit);
-        btnLocation = findViewById(R.id.btnLocation);
-        etCityName = findViewById(R.id.etCityName);
-        tvCity = findViewById(R.id.tvCity);
-        tvWindSpeed = findViewById(R.id.tvWindSpeed);
-        tvTemperature = findViewById(R.id.tvTemperature);
-        tvClouds = findViewById(R.id.tvClouds);
-        weatherService = new CurrentWeatherService();
-        ivWeather = findViewById(R.id.ivWeather);
     }
 
     private void onDataUpdate(WeatherData data) {

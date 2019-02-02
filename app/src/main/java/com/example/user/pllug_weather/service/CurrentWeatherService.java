@@ -55,7 +55,7 @@ public class CurrentWeatherService {
         });
     }
 
-    public void getCurrentDataByLocaton(final LoadData<WeatherData> callback, final String lon, final String lat) {
+    public void getCurrentDataByLocation(final String lat, final String lon, final LoadData<WeatherData> callback) {
         api.getOneDayDataByCoord(lat, lon, api.API_ID).enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
