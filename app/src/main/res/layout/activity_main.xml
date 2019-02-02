@@ -25,12 +25,11 @@
         android:id="@+id/tvCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="250dp"
-        android:text="City name:"
+        android:layout_toEndOf="@+id/textView2"
         android:textSize="18sp" />
 
     <TextView
@@ -38,11 +37,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvCity"
-        android:layout_alignParentStart="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="5dp"
-        android:text="City id:"
+        android:layout_toEndOf="@+id/textView3"
         android:textSize="18sp" />
 
     <TextView
@@ -50,10 +48,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvWindSpeed"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="Temperature:"
+        android:layout_toEndOf="@+id/textView4"
         android:textSize="18sp" />
 
     <TextView
@@ -61,10 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTemperature"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
-        android:text="Clouds:"
+        android:layout_toEndOf="@+id/textView5"
         android:textSize="18sp" />
 
     <ImageButton
@@ -93,4 +89,57 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp" />
+
+    <TextView
+        android:id="@+id/tvCoords"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvClouds"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="250dp"
+        android:text="City name:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:text="Wind speed:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:text="Temperature:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="5dp"
+        android:text="Clouds:"
+        android:textSize="18sp" />
 </RelativeLayout>

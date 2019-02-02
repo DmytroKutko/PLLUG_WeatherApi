@@ -1,5 +1,6 @@
 package com.example.user.pllug_weather;
 
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton btnSubmit;
     Button btnLocation;
     ImageView ivWeather;
-    TextView tvCity, tvWindSpeed, tvTemperature, tvClouds;
+    TextView tvCity, tvWindSpeed, tvTemperature, tvClouds, tvCoords;
     EditText etCityName;
     CurrentWeatherService weatherService;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnLocation = findViewById(R.id.btnLocation);
         etCityName = findViewById(R.id.etCityName);
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         tvWindSpeed = findViewById(R.id.tvWindSpeed);
         tvTemperature = findViewById(R.id.tvTemperature);
         tvClouds = findViewById(R.id.tvClouds);
+        tvCoords = findViewById(R.id.tvCoords);
         weatherService = new CurrentWeatherService();
         ivWeather = findViewById(R.id.ivWeather);
         client = LocationServices.getFusedLocationProviderClient(this);
@@ -75,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "onData: received");
                         onDataUpdate(data);
                         etCityName.setText("");
+                        tvCoords.setText("");
                     }
 
                     @Override
@@ -101,20 +105,21 @@ public class MainActivity extends AppCompatActivity {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
 
-                            weatherService.getCurrentDataByLocation(String.format("%.5f", latitude),
-                                    String.format("%.5f", longitude),
+                            final String lat = String.format("%.5f", latitude).replace(",", ".");
+                            final String lon = String.format("%.5f", longitude).replace(",", ".");
+
+                            weatherService.getCurrentDataByLocation(lat, lon,   // Set latitude and longitude
                                     new CurrentWeatherService.LoadData<WeatherData>() {
                                         @Override
                                         public void onData(WeatherData data) {
                                             Log.d(TAG, "onData: received");
                                             onDataUpdate(data);
-                                            etCityName.setText("");
+                                            tvCoords.setText("Latitude: " + lat + "\n" + "Longitude: " + lon);
                                         }
 
                                         @Override
                                         public void onFailure() {
-                                            Toast.makeText(MainActivity.this, "Fail to load data Coordinates 111", Toast.LENGTH_SHORT).show();
-                                            tvCity.setText(latitude + '\n' + longitude + "");
+                                            Toast.makeText(MainActivity.this, "Fail to load data Coordinates", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
@@ -125,10 +130,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onDataUpdate(WeatherData data) {
-        tvCity.setText("City name:\t" + data.getName());
-        tvWindSpeed.setText("Wind speed:\t" + data.getWind().getSpeed() + " meter/sec");
-        tvTemperature.setText("Temperature: \t" + temp(data) + "°C");
-        tvClouds.setText("Weather:\t" + data.getWeather().get(0).getDescription());
+        tvCity.setText(data.getName());
+        tvWindSpeed.setText(data.getWind().getSpeed() + " meter/sec");
+        tvTemperature.setText(temp(data) + "°C");
+        tvClouds.setText(data.getWeather().get(0).getDescription());
         iconWeather(data);
     }
 
